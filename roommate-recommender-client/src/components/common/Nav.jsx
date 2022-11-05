@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import { useScrollPosition } from "hooks/useScrollPosition";
 import { useGetLocation } from "hooks/useGetLocation";
-
+import { useContext } from "react";
+import UserContext from "contexts/UserContext";
 function Nav() {
   const scrollPosition = useScrollPosition();
   let location = useGetLocation();
+
+  //const { isAuth } = useContext(UserContext);
 
   function navClassNames(...classes) {
     return classes.filter(Boolean).join(" ");

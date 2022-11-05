@@ -1,15 +1,44 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../utils/auth";
+// import { useAuth } from "../../utils/auth";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
-  const [user, setUser] = useState("");
-  const auth = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [msg, setMsg] = useState("");
+  //const auth = useAuth();
   const navigate = useNavigate();
-  const handleLogin = () => {
-    auth.login(user);
-    navigate("/");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    await axios
+      .post("/auth/login", {
+        email: email,
+        password: password,
+      })
+      .then((response) => {
+        if (response.data.msg) {
+          setMsg(response.data.msg);
+        } else {
+          sessionStorage.setItem("accessToken", response.data);
+          setMsg("Logged In Successfully.");
+          navigate("/profile");
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          if (error.response) {
+            setMsg(error.response.data.msg);
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log("Error :", error.message);
+          }
+          setMsg(error.response.data.msg);
+        }
+      });
   };
   return (
     <div>
@@ -20,7 +49,8 @@ const Login = () => {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-primary-black">
                 Sign in to your account
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
+                <p>{msg}</p>
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-primary-black">
                     Your email
@@ -29,9 +59,11 @@ const Login = () => {
                     type="email"
                     name="email"
                     id="email"
-                    className="bg-gray-50  shadow text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50  shadow text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="name@company.com"
                     required=""
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div>
@@ -43,8 +75,10 @@ const Login = () => {
                     name="password"
                     id="password"
                     placeholder="••••••••"
-                    className="bg-gray-50  shadow text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50  shadow text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-00 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required=""
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
                 <div className="flex items-center justify-between">
