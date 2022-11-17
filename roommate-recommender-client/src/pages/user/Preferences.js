@@ -1,9 +1,8 @@
-import SideNav from "components/common/SideNav";
-import profileImage from "assets/images/profile-image.jpg";
-import { useApiGetRequest } from "api/useApiGetRequest";
+//import { useApiGetRequest } from "api/useApiGetRequest";
 
 const Preference = () => {
   const isLoaded = true;
+
   return (
     <div className=" w-full h-full  flex flex-col relative">
       {!isLoaded && <div>Loading..</div>}
@@ -26,11 +25,11 @@ const Preference = () => {
             <div className="flex flex-1 space-y-2 flex-col">
               <div className="flex items-center  space-x-2">
                 <input type="radio" id="male" name="gender" value="male" /> {" "}
-                <label for="male">Male</label>
+                <label htmlFor="male">Male</label>
               </div>
               <div className="flex items-center space-x-2">
                 <input type="radio" id="female" name="gender" value="female" /> 
-                <label for="female">Female</label>
+                <label htmlFor="female">Female</label>
               </div>
             </div>
           </div>
@@ -47,7 +46,7 @@ const Preference = () => {
                   name="foodpreference"
                   value="vegan"
                 />
-                  <label for="vegan">Vegan</label>
+                  <label htmlFor="vegan">Vegan</label>
               </div>
               <div className="flex items-center space-x-2">
                 <input
@@ -56,7 +55,7 @@ const Preference = () => {
                   name="foodpreference"
                   value="nonvegan"
                 />
-                 <label for="nonvegan">Non-Vegan</label>
+                 <label htmlFor="nonvegan">Non-Vegan</label>
               </div>
             </div>
           </div>
@@ -73,7 +72,7 @@ const Preference = () => {
                   name="culinaryskills"
                   value="average"
                 />
-                  <label for="culinaryskills">Average</label>
+                  <label htmlFor="culinaryskills">Average</label>
               </div>
               <div className="flex items-center space-x-2">
                 <input
@@ -82,7 +81,7 @@ const Preference = () => {
                   name="culinaryskills"
                   value="excellent"
                 />
-                 <label for="female">excellent</label>
+                 <label htmlFor="female">excellent</label>
               </div>
             </div>
           </div>
@@ -98,11 +97,11 @@ const Preference = () => {
                   name="alcohol"
                   value="yes"
                 />
-                  <label for="drinks-alcohol">Drinks alcohol</label>
+                  <label htmlFor="drinks-alcohol">Drinks alcohol</label>
               </div>
               <div className="flex items-center space-x-2">
                 <input type="radio" id="no-alcohol" name="alcohol" value="no" />
-                 <label for="no-alcohol">Does not drink alcohol</label>
+                 <label htmlFor="no-alcohol">Does not drink alcohol</label>
               </div>
             </div>
           </div>
@@ -113,11 +112,11 @@ const Preference = () => {
             <div className="flex flex-1 space-y-2 flex-col">
               <div className="flex items-center  space-x-2">
                 <input type="radio" id="smoker" name="smoking" value="yes" /> {" "}
-                <label for="smoker">Smoker</label>
+                <label htmlFor="smoker">Smoker</label>
               </div>
               <div className="flex items-center space-x-2">
                 <input type="radio" id="non-smoker" name="smoking" value="no" />
-                 <label for="non-smoker">Non-Smoker</label>
+                 <label htmlFor="non-smoker">Non-Smoker</label>
               </div>
             </div>
           </div>
@@ -128,11 +127,11 @@ const Preference = () => {
             <div className="flex flex-1 space-y-2 flex-col">
               <div className="flex items-center  space-x-2">
                 <input type="radio" id="pets-no" name="pets" value="yes" /> {" "}
-                <label for="pets-no">Pets Allowed</label>
+                <label htmlFor="pets-no">Pets Allowed</label>
               </div>
               <div className="flex items-center space-x-2">
                 <input type="radio" id="pets-yes" name="pets" value="no" /> 
-                <label for="pets-yes">Pets not allowed</label>
+                <label htmlFor="pets-yes">Pets not allowed</label>
               </div>
             </div>
           </div>
@@ -148,7 +147,7 @@ const Preference = () => {
                   name="sleeppatterns"
                   value="early bird"
                 />
-                  <label for="early-bird">Early bird</label>
+                  <label htmlFor="early-bird">Early bird</label>
               </div>
               <div className="flex items-center space-x-2">
                 <input
@@ -157,7 +156,7 @@ const Preference = () => {
                   name="sleeppatterns"
                   value="night owl"
                 />
-                 <label for="night-owl">Night owl</label>
+                 <label htmlFor="night-owl">Night owl</label>
               </div>
             </div>
           </div>

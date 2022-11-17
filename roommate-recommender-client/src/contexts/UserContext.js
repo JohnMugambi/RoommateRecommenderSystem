@@ -9,15 +9,21 @@ export const UserContextProvider = ({ children }) => {
   const [isAuth, setIsAuth] = useState(null);
 
   useEffect(() => {
-    axios.get("auth/auth").then((response) => {
-      if (response.data.error) {
-        setIsAuth(false);
-        console.log("SetAuth(false)");
-      } else {
-        setIsAuth(true);
-        console.log("SetAuth(true)");
-      }
-    });
+    axios
+      .get("auth/auth", {
+        headers: {
+          accessToken: sessionStorage.getItem("accessToken"),
+        },
+      })
+      .then((response) => {
+        if (response.data.error) {
+          setIsAuth(false);
+          console.log("User is not logged in -Context is false");
+        } else {
+          setIsAuth(true);
+          console.log("SetAuth(true) User is not logged in -Context is tru");
+        }
+      });
   }, []);
 
   //function to handle login

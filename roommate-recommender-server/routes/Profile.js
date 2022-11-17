@@ -14,7 +14,7 @@ router.get("/", validateToken, async (req, res) => {
     });
     res.json(user);
   } catch (error) {
-    rconsole.log(error);
+    console.log(error);
   }
 });
 

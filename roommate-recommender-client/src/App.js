@@ -1,6 +1,6 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 //Lit of pages
 import Home from "./pages/home/Home";
@@ -17,19 +17,31 @@ import Notification from "pages/user/Notifications";
 import PersonalityTest from "pages/user/PersonalityTest";
 import Recommendations from "pages/user/Recommendations";
 
+//Protected routes components
+import ProtectedRoute from "components/protectedroutes/Protected";
+
+import axios from "axios";
+
 //Context
 import { UserContextProvider } from "contexts/UserContext";
 
 function App() {
-  //Check is user is authenticated/valid toke and not random token
+  //Check is user is authenticated/valid token and not random token
   // useEffect(() => {
-  //   axios.get("auth/auth").then((response) => {
-  //     if (response.data.error) {
-  //       console.log("SetAuth(false)");
-  //     } else {
-  //       console.log("SetAuth(true)");
-  //     }
-  //   });
+  //   axios
+  //     .get("auth/auth", {
+  //       headers: {
+  //         accessToken: sessionStorage.getItem("accessToken"),
+  //       },
+  //     })
+  //     .then((response) => {
+  //       if (response.data.error) {
+  //         console.log("SetAuth(false) in App");
+  //         console.log(response.data.error);
+  //       } else {
+  //         console.log("SetAuth(true) in App");
+  //       }
+  //     });
   // }, []);
 
   return (
@@ -44,13 +56,38 @@ function App() {
           <Route path="register" element={<Register />}></Route>
           <Route path="logout" element={<LogOut />}></Route>
 
-          <Route path="profile/*" element={<Profile />}></Route>
-          <Route path="notifications" element={<Notification />}></Route>
+          <Route
+            path="profile/*"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          ></Route>
+          <Route
+            path="notifications"
+            element={
+              <ProtectedRoute>
+                <Notification />
+              </ProtectedRoute>
+            }
+          ></Route>
           <Route
             path="personality-details"
-            element={<PersonalityTest />}
+            element={
+              <ProtectedRoute>
+                <PersonalityTest />
+              </ProtectedRoute>
+            }
           ></Route>
-          <Route path="recommendations" element={<Recommendations />}></Route>
+          <Route
+            path="recommendations"
+            element={
+              <ProtectedRoute>
+                <Recommendations />
+              </ProtectedRoute>
+            }
+          ></Route>
           <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
         <Footer />

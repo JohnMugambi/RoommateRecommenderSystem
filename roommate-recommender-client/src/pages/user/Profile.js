@@ -3,10 +3,30 @@ import SideNav from "components/common/SideNav";
 import profileImage from "assets/images/profile-image.jpg";
 import { useApiGetRequest } from "api/useApiGetRequest";
 import Preference from "./Preferences";
+import UserContext from "contexts/UserContext";
+import { useContext, useState, useEffect } from "react";
 
 const Profile = () => {
   const { data, error, isLoaded } = useApiGetRequest("/profile");
-  console.log(isLoaded);
+
+  const [email, setEmail] = useState(data.email);
+  const [dob, setDOB] = useState(data.dob);
+
+  const { isAuth } = useContext(UserContext);
+  console.log("Is auth profile page: ", isAuth);
+
+  const [isEditable, setIsEditable] = useState(false);
+
+  const handleEdit = () => {
+    setIsEditable(true);
+  };
+
+  const handleSubmitEditedProfile = () => {
+    setIsEditable(false);
+    console.log("You can tedit the profile now");
+  };
+
+  // console.log(isLoaded);
   return (
     <div className="w-full h-full px-4  flex flex-col relative">
       <div className="pt-3 pl-10">
@@ -28,20 +48,56 @@ const Profile = () => {
               <p className="text-2xl">
                 {data.firstname} {data.lastname}
               </p>
-              <button className="mr-5 w-24 bg-primary-blue text-primary-white py-2 px-8 rounded">
-                Edit
-              </button>
+              {!isEditable && (
+                <button
+                  className="mr-5 w-24 bg-primary-blue text-primary-white py-2 px-8 rounded"
+                  onClick={() => {
+                    handleEdit();
+                  }}
+                >
+                  Edit
+                </button>
+              )}
             </div>
           </div>
           <div className="mt-10">
             <div className=" my-3 flex items-center">
               <p className="w-64">Email:</p>
-              <p className="shadow p-3 w-[40vw] rounded">{data.email}</p>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                className="bg-gray-50  shadow text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="name@company.com"
+                value={isEditable ? email : data.email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={!isEditable}
+              />
             </div>
             <div className="my-9 flex items-center">
               <p className="w-64">Date of Birth:</p>
-              <p className="shadow p-3 w-[40vw]  rounded">{data.dob}</p>
+              <input
+                type="date"
+                name="dob"
+                id="dob"
+                className="bg-gray-50  shadow text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="doe"
+                required=""
+                value={isEditable ? dob : data.dob}
+                onChange={(e) => setDOB(e.target.value)}
+                disabled={!isEditable}
+              />
             </div>
+            {isEditable && (
+              <button
+                className="mr-5 w-24 bg-primary-blue text-primary-white py-2 px-8 rounded"
+                onClick={() => {
+                  handleSubmitEditedProfile();
+                }}
+              >
+                Edit
+              </button>
+            )}
           </div>
           <div>
             <Routes>

@@ -5,10 +5,14 @@ import { GiBrain } from "react-icons/gi";
 import { RiStarSmileLine } from "react-icons/ri";
 import { MdOutlineSupportAgent } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import UserContext from "contexts/UserContext";
+import { useContext } from "react";
 
 function Home() {
   let navigate = useNavigate();
 
+  const { isAuth } = useContext(UserContext);
+  console.log("Auth state : ", isAuth);
   const routeChange = (url) => {
     let path = url;
     navigate(path);
@@ -27,28 +31,32 @@ function Home() {
               <span className="text-primary-blue ">Like You</span>
             </h3>
             <div className="flex mt-8">
-              <button
-                type="button"
-                className="w-36 bg-primary-blue text-primary-white py-2 px-8 rounded-full
+              {!isAuth && (
+                <>
+                  <button
+                    type="button"
+                    className="w-36 bg-primary-blue text-primary-white py-2 px-8 rounded-full
                  hover:text-gray-300"
-                onClick={() => {
-                  let path = "login";
-                  routeChange(path);
-                }}
-              >
-                Sign in
-              </button>
-              <button
-                type="button"
-                className="border border-primary-blue w-36 py-2 px-8 ml-4 rounded-full
+                    onClick={() => {
+                      let path = "login";
+                      routeChange(path);
+                    }}
+                  >
+                    Sign in
+                  </button>
+                  <button
+                    type="button"
+                    className="border border-primary-blue w-36 py-2 px-8 ml-4 rounded-full
                 hover:border-bg-footer-blue hover:text-bg-footer-blue"
-                onClick={() => {
-                  let path = "register";
-                  routeChange(path);
-                }}
-              >
-                Register
-              </button>
+                    onClick={() => {
+                      let path = "register";
+                      routeChange(path);
+                    }}
+                  >
+                    Register
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>

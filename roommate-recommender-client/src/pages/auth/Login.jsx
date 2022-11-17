@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useAuth } from "../../utils/auth";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import UserContext from "contexts/UserContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
-  //const auth = useAuth();
   const navigate = useNavigate();
+  const { setIsAuth } = useContext(UserContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,6 +25,7 @@ const Login = () => {
         } else {
           sessionStorage.setItem("accessToken", response.data);
           setMsg("Logged In Successfully.");
+          setIsAuth(true);
           navigate("/profile");
         }
       })

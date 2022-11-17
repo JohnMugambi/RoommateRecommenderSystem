@@ -1,8 +1,15 @@
+import UserContext from "contexts/UserContext";
+import { useContext } from "react";
 const Footer = () => {
+  const { isAuth } = useContext(UserContext);
   return (
     <footer className="text-center text-primary-white bg-[#164e63] mt-4">
-      <div className="p-6 w-full ">
-        <div className="flex justify-center items-center w-full">
+      <div className="p-6 pt-0 w-full ">
+        <div
+          className={
+            isAuth ? "hidden" : "flex justify-center items-center w-full pt-6"
+          }
+        >
           <p className="mr-4">Register for free</p>
           <button
             type="button"

@@ -26,6 +26,10 @@ app.use("/auth", userRouter);
 const profileRouter = require("./routes/Profile");
 app.use("/profile", profileRouter);
 
+//Preferences router
+const preferencesRouter = require("./routes/Preferences");
+app.use("/preferences", preferencesRouter);
+
 db.sequelize.sync().then(() => {
   app.listen(PORT, () => {
     console.log(`server running on port ${PORT}`);
