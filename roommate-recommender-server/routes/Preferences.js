@@ -4,7 +4,6 @@ const { Preferences } = require("../models");
 const { validateToken } = require("../middlewares/AuthMiddleware");
 
 //Get user preferences based on their email
-
 router.get("/", validateToken, async (req, res) => {
   const userEmail = req.user.email;
 
@@ -20,31 +19,44 @@ router.get("/", validateToken, async (req, res) => {
   }
 });
 
+//Post a users preference once the are registered
 router.post("/preferences", async (req, res) => {
   const {
     email,
-    id,
     gender,
     foodpref,
     culinaryskills,
     alcohol,
+    smoking,
     pets,
-    sleeppatterns,
+    sleepPatterns,
     noise,
   } = req.body;
 
   try {
-    Preferences.create({
-      email: email,
-      gender: gender,
-      foodpref: foodpref,
-      culinaryskills: culinaryskills,
-      alcohol: alcohol,
-      pets: pets,
-      sleeppatterns: sleeppatterns,
-      noise: noise,
-      // personality :personality
+    console.log("the data is : ", req.body);
+    const userPref = Preferences.findOne({
+      where: {
+        email: email,
+      },
     });
+
+    if (userPref) {
+      return res.json({ msg: "User has already filled their preferences" });
+    } else {
+      Preferences.create({
+        email: email,
+        gender: gender,
+        foodpref: foodpref,
+        culinaryskills: culinaryskills,
+        alcohol: alcohol,
+        smoking: smoking,
+        pets: pets,
+        sleeppatterns: sleepPatterns,
+        noise: noise,
+        // personality :personality
+      });
+    }
   } catch (error) {
     console.log(error);
     res.json(error);

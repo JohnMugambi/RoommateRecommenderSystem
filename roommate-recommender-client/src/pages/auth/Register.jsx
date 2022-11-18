@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
+import UserContext from "contexts/UserContext";
 
 const Register = () => {
+  const { setIsAuth, setUser } = useContext(UserContext);
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -32,6 +35,8 @@ const Register = () => {
           } else {
             sessionStorage.setItem("accessToken", response.data);
             setMsg("Registered Successfully.");
+            setIsAuth(true);
+            setUser(email);
             navigate("/profile");
           }
         });

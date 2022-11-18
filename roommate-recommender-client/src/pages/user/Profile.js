@@ -3,17 +3,13 @@ import SideNav from "components/common/SideNav";
 import profileImage from "assets/images/profile-image.jpg";
 import { useApiGetRequest } from "api/useApiGetRequest";
 import Preference from "./Preferences";
-import UserContext from "contexts/UserContext";
-import { useContext, useState, useEffect } from "react";
+import { useState } from "react";
 
 const Profile = () => {
   const { data, error, isLoaded } = useApiGetRequest("/profile");
 
   const [email, setEmail] = useState(data.email);
   const [dob, setDOB] = useState(data.dob);
-
-  const { isAuth } = useContext(UserContext);
-  console.log("Is auth profile page: ", isAuth);
 
   const [isEditable, setIsEditable] = useState(false);
 
@@ -90,19 +86,20 @@ const Profile = () => {
             </div>
             {isEditable && (
               <button
+                type="submit"
                 className="mr-5 w-24 bg-primary-blue text-primary-white py-2 px-8 rounded"
                 onClick={() => {
                   handleSubmitEditedProfile();
                 }}
               >
-                Edit
+                Save
               </button>
             )}
           </div>
           <div>
             <Routes>
               <Route path="preferences" element={<Preference />}></Route>
-            </Routes>{" "}
+            </Routes>
           </div>
         </div>
       </div>

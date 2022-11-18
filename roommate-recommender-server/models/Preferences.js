@@ -1,10 +1,14 @@
 module.exports = (sequelize, DataTypes) => {
-  const Preferences = sequelize.define("tblPreferences", {
+  const Preferences = sequelize.define("Preferences", {
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     gender: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    foodpreference: {
+    foodpref: {
       type: DataTypes.STRING,
       allowNull: false,
     },

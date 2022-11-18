@@ -9,7 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
-  const { setIsAuth } = useContext(UserContext);
+  const { setIsAuth, setUser } = useContext(UserContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,6 +26,7 @@ const Login = () => {
           sessionStorage.setItem("accessToken", response.data);
           setMsg("Logged In Successfully.");
           setIsAuth(true);
+          setUser(email);
           navigate("/profile");
         }
       })
