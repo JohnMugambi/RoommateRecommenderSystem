@@ -52,51 +52,64 @@ const PersnalityTestTable = () => {
     "I am full of ideas.",
   ];
 
+  const RowItem = (props) => {
+    return (
+      <tr>
+        <td className="py-3">
+          <p>{props.value}</p>
+        </td>
+        <td className="text-center">
+          <input type="radio" id="ext1" name="ext1" value="1" /> 
+        </td>
+        <td className="text-center">
+          <input type="radio" id="ext1" name="ext1" value="2" /> 
+        </td>
+        <td className="text-center">
+          <input type="radio" id="ext1" name="ext1" value="3" /> 
+        </td>
+        <td className="text-center">
+          <input type="radio" id="ext1" name="ext1" value="4" /> 
+        </td>
+        <td className="text-center">
+          <input type="radio" id="ext1" name="ext1" value="5" /> 
+        </td>
+      </tr>
+    );
+  };
+
+  const TableList = (props) => {
+    const personalityQns = props.personalityQns;
+    const tableListItems = personalityQns.map((item) => (
+      <RowItem key={item} value={item} />
+    ));
+    return <>{tableListItems}</>;
+  };
   return (
     <>
-      <table>
-        <thead className="border">
-          <td>
+      <table className="w-full">
+        {/* Title quiestions and radio answers */}
+        <tr className="border w-full">
+          <th>
             <p>Question</p>
-          </td>
-          <td>
+          </th>
+          <th>
             <p>Disagree</p>
-          </td>
-          <td>
+          </th>
+          <th>
             <p>Slightly Disagree</p>
-          </td>
-          <td>
+          </th>
+          <th>
             <p>Neutral</p>
-          </td>
-          <td>
+          </th>
+          <th>
             <p>slightly agree</p>
-          </td>
-          <td>
+          </th>
+          <th>
             <p>Agree</p>
-          </td>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <p>I am the life of the party</p>
-            </td>
-            <td>
-              <input type="radio" id="ext1" name="ext1" value="1" /> 
-            </td>
-            <td>
-              <input type="radio" id="ext1" name="ext1" value="1" /> 
-            </td>
-            <td>
-              <input type="radio" id="ext1" name="ext1" value="1" /> 
-            </td>
-            <td>
-              <input type="radio" id="ext1" name="ext1" value="1" /> 
-            </td>
-            <td>
-              <input type="radio" id="ext1" name="ext1" value="1" /> 
-            </td>
-          </tr>
-        </tbody>
+          </th>
+        </tr>
+        {/* personality Questions */}
+        <TableList personalityQns={personalityQuestions} />
       </table>
     </>
   );

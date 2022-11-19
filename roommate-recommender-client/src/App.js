@@ -76,9 +76,10 @@ function App() {
           <Route
             path="personality-details"
             element={
-              <ProtectedRoute>
-                <PersonalityTest />
-              </ProtectedRoute>
+              <PersonalityTest />
+
+              // <ProtectedRoute>
+              // </ProtectedRoute>
             }
           ></Route>
           <Route

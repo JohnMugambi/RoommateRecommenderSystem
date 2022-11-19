@@ -12,7 +12,7 @@ const PersonalityTest = () => {
           <div className="sticky top-10 h-[60vh] w-80  p-5 pt-0 ">
             <SideNav />
           </div>
-          <div className=" border flex-1  pt-5 p-5">
+          <div className=" border flex-1  pt-5 p-5 w-full">
             {/* Openness, Conscientiousness, Extroversion, 
             Agreeableness, and Neuroticism */}
 
