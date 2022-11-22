@@ -1,0 +1,9 @@
+numpy
+pandas
+scikit-learn
+xlsxwriter
+openpyxl
+joblib
+requests
+django
+djangorestframework
