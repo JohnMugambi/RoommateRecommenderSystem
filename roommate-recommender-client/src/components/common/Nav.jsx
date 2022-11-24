@@ -65,8 +65,9 @@ function Nav() {
         <span className="mx-6 flex flex justify-between items-center">
           {isAuth && (
             <div
-              onMouseEnter={() => setIsUserIconOpen((prev) => !prev)}
-              onMouseLeave={() => setIsUserIconOpen((prev) => !prev)}
+              // onMouseEnter={() => setIsUserIconOpen((prev) => !prev)}
+              onMouseEnter={() => setIsUserIconOpen(true)}
+              onMouseLeave={() => setIsUserIconOpen(false)}
             >
               <TiUser
                 size="30px"

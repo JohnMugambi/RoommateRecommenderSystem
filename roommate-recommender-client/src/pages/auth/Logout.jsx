@@ -3,12 +3,12 @@ import UserContext from "contexts/UserContext";
 import { useContext } from "react";
 
 const LogOut = () => {
-  const { setIsAuth } = useContext(UserContext);
+  const { logout } = useContext(UserContext);
 
   useEffect(() => {
     sessionStorage.removeItem("accessToken");
-    setIsAuth(false);
-  }, [setIsAuth]);
+    logout();
+  }, []);
 
   return <div>You are now logged out</div>;
 };

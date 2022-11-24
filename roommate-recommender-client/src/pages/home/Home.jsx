@@ -61,7 +61,7 @@ function Home() {
           </div>
         </div>
         {/* Hero image */}
-        <div className="flex-1 w-full">
+        <div className="flex-1 w-full pt-1">
           <div className="overflow-hidden h-[80vh] flex justify-end bg-blend-darken">
             <div className="w-9/12 rounded-bl-[200px] overflow-hidden relative">
               <div className="absolute w-full h-full object-fit bg-black opacity-30"></div>
