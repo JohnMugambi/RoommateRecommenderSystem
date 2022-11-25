@@ -35,7 +35,7 @@ router.post("/preferences", async (req, res) => {
 
   try {
     console.log("the data is : ", req.body);
-    const userPref = Preferences.findOne({
+    const userPref = await Preferences.findOne({
       where: {
         email: email,
       },
@@ -44,7 +44,7 @@ router.post("/preferences", async (req, res) => {
     if (userPref) {
       return res.json({ msg: "User has already filled their preferences" });
     } else {
-      Preferences.create({
+      await Preferences.create({
         email: email,
         gender: gender,
         foodpref: foodpref,
@@ -55,6 +55,8 @@ router.post("/preferences", async (req, res) => {
         sleeppatterns: sleepPatterns,
         noise: noise,
         // personality :personality
+      }).then(() => {
+        res.json({ msg: "User preferences have been recorded successfully." });
       });
     }
   } catch (error) {

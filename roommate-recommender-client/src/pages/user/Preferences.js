@@ -5,15 +5,22 @@ import axios from "axios";
 import { useState, useContext, useEffect } from "react";
 
 const Preference = () => {
-  console.log("component has loaded");
   //Get users preferences if he exists
 
   const { data, error, isLoaded } = useApiGetRequest("/preferences");
 
-  console.log("The data: ", data);
   const { user } = useContext(UserContext);
   const [isEditable, setIsEditable] = useState(false);
-  const [gender, setGender] = useState("");
+
+  //form states data === null
+  // ? data.gender === "male"
+  //   ? "male"
+  //   : data.gender === "female"
+  //   ? "female"
+  //   : "test2"
+  // : "test1"
+  const [gender, setGender] = useState("mimi");
+  console.log("gender", gender);
   const [foodpref, setFoodpref] = useState("");
   const [culinaryskills, setCulinarySkills] = useState("");
   const [alcohol, setAlcohol] = useState("");
@@ -21,21 +28,30 @@ const Preference = () => {
   const [pets, setPets] = useState("");
   const [sleepPatterns, setSleepPatterns] = useState("");
 
-  const loadRadios = () => {
-    setGender(data.gender);
-    setFoodpref(data.foodpref);
-    setCulinarySkills(data.culinaryskills);
-    setAlcohol(data.alcohol);
-    setSmoking(data.smoking);
-    setPets(data.pets);
-    setSleepPatterns(data.sleeppatterns);
-  };
-  //console.log(data );
+  // const loadRadios = () => {
+  //   setGender(data.gender);
+  //   setFoodpref(data.foodpref);
+  //   setCulinarySkills(data.culinaryskills);
+  //   setAlcohol(data.alcohol);
+  //   setSmoking(data.smoking);
+  //   setPets(data.pets);
+  //   setSleepPatterns(data.sleeppatterns);
+  // };
   useEffect(() => {
-    if (isLoaded) {
-      loadRadios();
+    if (data !== null) {
+      setIsEditable(false);
+
+      setGender(data.gender);
+      setFoodpref(data.foodpref);
+      setCulinarySkills(data.culinaryskills);
+      setAlcohol(data.alcohol);
+      setSmoking(data.smoking);
+      setPets(data.pets);
+      setSleepPatterns(data.sleeppatterns);
+    } else {
+      setIsEditable(true);
     }
-  }, []);
+  }, [data]);
 
   const [msg, setMsg] = useState("");
 
@@ -60,25 +76,14 @@ const Preference = () => {
           sleepPatterns,
         })
         .then((response) => {
-          setIsEditable(false);
           if (response.data.msg) {
             setMsg(response.data.msg);
-          } else {
-            setMsg("Profile preferences update successfully");
+            setIsEditable(false);
           }
         });
     } catch (error) {
       console.log("The error is : ", error);
     }
-    console.log(
-      gender,
-      foodpref,
-      culinaryskills,
-      alcohol,
-      smoking,
-      pets,
-      sleepPatterns
-    );
   };
 
   return (
@@ -360,9 +365,7 @@ const Preference = () => {
             <button
               type="submit"
               className="mr-5 w-24 bg-primary-blue text-primary-white py-2 px-8 rounded"
-              onClick={() => {
-                handlePreferencesSubmit();
-              }}
+              onClick={handlePreferencesSubmit}
             >
               Save
             </button>

@@ -15,16 +15,22 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      primaryKey: true,
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false,
     },
   });
-  // Users.associate = (modles)=>{
-  //   Users.hasOne(models.Preference,{
-  //     onDelete: "cascade"
-  //   } )
-  //}
+  Users.associate = (models) => {
+    Users.hasOne(models.Preferences, {
+      foreignKey: "email",
+      onDelete: "cascade",
+    });
+    Users.hasOne(models.PersonalityQns, {
+      foreignKey: "email",
+      onDelete: "cascade",
+    });
+  };
   return Users;
 };

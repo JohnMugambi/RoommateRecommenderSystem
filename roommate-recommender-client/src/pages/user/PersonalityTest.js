@@ -1,5 +1,5 @@
 import SideNav from "components/common/SideNav";
-import PersnalityTestTable from "components/personalitytesttable/PersonalityTable";
+import PersnalityTestForm from "components/personalitytest/PersonalityTestForm";
 
 const PersonalityTest = () => {
   return (
@@ -16,12 +16,7 @@ const PersonalityTest = () => {
             {/* Openness, Conscientiousness, Extroversion, 
             Agreeableness, and Neuroticism */}
 
-            <PersnalityTestTable />
-            <form action="">
-              <div>
-                <label htmlFor="xt"></label>
-              </div>
-            </form>
+            <PersnalityTestForm />
           </div>
         </div>
       </div>

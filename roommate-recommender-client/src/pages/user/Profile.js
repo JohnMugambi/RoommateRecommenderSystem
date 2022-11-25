@@ -59,30 +59,36 @@ const Profile = () => {
           <div className="mt-10">
             <div className=" my-3 flex items-center">
               <p className="w-64">Email:</p>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                className="bg-gray-50  shadow text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="name@company.com"
-                value={isEditable ? email : data.email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={!isEditable}
-              />
+              {!isEditable && <p>{data.email}</p>}
+              {isEditable && (
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  className="bg-gray-50  shadow text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="name@company.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={!isEditable}
+                />
+              )}
             </div>
             <div className="my-9 flex items-center">
               <p className="w-64">Date of Birth:</p>
-              <input
-                type="date"
-                name="dob"
-                id="dob"
-                className="bg-gray-50  shadow text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="doe"
-                required=""
-                value={isEditable ? dob : data.dob}
-                onChange={(e) => setDOB(e.target.value)}
-                disabled={!isEditable}
-              />
+              {!isEditable && <p>{data.dob}</p>}
+              {isEditable && (
+                <input
+                  type="date"
+                  name="dob"
+                  id="dob"
+                  className="bg-gray-50  shadow text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-200 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="doe"
+                  required=""
+                  value={isEditable ? dob : data.dob}
+                  onChange={(e) => setDOB(e.target.value)}
+                  disabled={!isEditable}
+                />
+              )}
             </div>
             {isEditable && (
               <button

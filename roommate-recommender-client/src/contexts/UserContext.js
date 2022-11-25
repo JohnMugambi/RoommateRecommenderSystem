@@ -21,7 +21,7 @@ export const UserContextProvider = ({ children }) => {
           console.log("User is not logged in -Context is false");
         } else {
           setIsAuth(true);
-          console.log("SetAuth(true) User is not logged in -Context is tru");
+          console.log("User is logged in -Context is true");
         }
       });
   }, []);

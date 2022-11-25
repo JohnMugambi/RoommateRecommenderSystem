@@ -30,6 +30,10 @@ app.use("/profile", profileRouter);
 const preferencesRouter = require("./routes/Preferences");
 app.use("/preferences", preferencesRouter);
 
+//Personality router
+const personalityRouter = require("./routes/PersonalityTest");
+app.use("/personality", personalityRouter);
+
 db.sequelize.sync().then(() => {
   app.listen(PORT, () => {
     console.log(`server running on port ${PORT}`);

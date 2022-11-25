@@ -23,7 +23,7 @@ export const useApiGetRequest = (url) => {
         });
     };
     fetchData();
-  }, [url]);
+  }, [url, data]);
 
   return { error, isLoaded, data };
 };
