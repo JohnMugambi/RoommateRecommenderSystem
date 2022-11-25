@@ -25,7 +25,7 @@ function Home() {
         {/* Hero text*/}
         <div className="flex flex-1 items-center justify-center align-middle">
           <div>
-            <h3 className="text-[50px] font-bold">
+            <h3 className="text-[60px] font-bold">
               Find <span className="text-primary-blue ">Roommates</span> <br />
               You'll Love & <br />
               <span className="text-primary-blue ">Like You</span>

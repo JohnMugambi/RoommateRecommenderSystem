@@ -9,7 +9,7 @@ import { useApiGetRequest } from "api/useApiGetRequest";
 // import CSN from "./questions/CSN";
 // import AGR from "./questions/AGR";
 
-const PersnalityTest = () => {
+const PersnalityTest = ({ canEdit, closeEditing }) => {
   // const personalityQuestions = [
   //   "I am the life of the party.",
   //   "I feel little concern for others.",
@@ -64,14 +64,12 @@ const PersnalityTest = () => {
   // ];
   //get user filled form
 
-  const { data, error, isLoaded } = useApiGetRequest("/preferences");
+  const { data, error, isLoaded } = useApiGetRequest("/personality");
 
-  // const { data, error, isLoaded } = useApiGetRequest("/personality");
-  // console.log(data);
+  //console.log("DB data is : ", data);
 
   const { user } = useContext(UserContext);
   const [msg, setMsg] = useState("");
-  const [isEditable, setIsEditable] = useState(true);
 
   //Extroversion
   const [ext1, setExt1] = useState("");
@@ -132,60 +130,60 @@ const PersnalityTest = () => {
   //
   useEffect(() => {
     if (data !== null) {
-      setIsEditable(false);
+      closeEditing(false);
 
-      setExt1(ext1);
-      setExt2(ext2);
-      setExt3(ext3);
-      setExt4(ext4);
-      setExt5(ext5);
-      setExt6(ext6);
-      setExt7(ext7);
-      setExt8(ext8);
-      setExt9(ext9);
-      setExt10(ext10);
-      setEst1(est1);
-      setEst2(est2);
-      setEst3(est3);
-      setEst4(est4);
-      setEst5(est5);
-      setEst6(est6);
-      setEst7(est7);
-      setEst8(est8);
-      setEst9(est9);
-      setEst10(est10);
-      setOpn1(opn1);
-      setOpn2(opn2);
-      setOpn3(opn3);
-      setOpn4(opn4);
-      setOpn5(opn5);
-      setOpn6(opn6);
-      setOpn7(opn7);
-      setOpn8(opn8);
-      setOpn9(opn9);
-      setOpn10(opn10);
-      setCsn1(csn1);
-      setCsn2(csn2);
-      setCsn3(csn3);
-      setCsn4(csn4);
-      setCsn5(csn5);
-      setCsn6(csn6);
-      setCsn7(csn7);
-      setCsn8(csn8);
-      setCsn9(csn9);
-      setCsn10(csn10);
-      setAgr1(agr1);
-      setAgr2(agr2);
-      setAgr3(agr3);
-      setAgr4(agr4);
-      setAgr5(agr5);
-      setAgr6(agr6);
-      setAgr7(agr7);
-      setAgr8(agr8);
-      setAgr9(agr9);
-      setAgr10(agr10);
+      setExt1(`${data.EXT1}`);
+      setExt2(`${data.EXT2}`);
+      setExt3(`${data.EXT3}`);
+      setExt4(`${data.EXT4}`);
+      setExt5(`${data.EXT5}`);
+      setExt6(`${data.EXT6}`);
+      setExt7(`${data.EXT7}`);
+      setExt8(`${data.EXT8}`);
+      setExt9(`${data.EXT9}`);
+      setExt10(`${data.EXT10}`);
+      setEst1(`${data.EST1}`);
+      setEst2(`${data.EST2}`);
+      setEst3(`${data.EST3}`);
+      setEst4(`${data.EST4}`);
+      setEst5(`${data.EST5}`);
+      setEst6(`${data.EST6}`);
+      setEst7(`${data.EST7}`);
+      setEst8(`${data.EST8}`);
+      setEst9(`${data.EST9}`);
+      setEst10(`${data.EST10}`);
+      setOpn1(`${data.OPN1}`);
+      setOpn2(`${data.OPN2}`);
+      setOpn3(`${data.OPN3}`);
+      setOpn4(`${data.OPN4}`);
+      setOpn5(`${data.OPN5}`);
+      setOpn6(`${data.OPN6}`);
+      setOpn7(`${data.OPN7}`);
+      setOpn8(`${data.OPN8}`);
+      setOpn9(`${data.OPN9}`);
+      setOpn10(`${data.OPN10}`);
+      setCsn1(`${data.CSN1}`);
+      setCsn2(`${data.CSN2}`);
+      setCsn3(`${data.CSN3}`);
+      setCsn4(`${data.CSN4}`);
+      setCsn5(`${data.CSN5}`);
+      setCsn6(`${data.CSN6}`);
+      setCsn7(`${data.CSN7}`);
+      setCsn8(`${data.CSN8}`);
+      setCsn9(`${data.CSN9}`);
+      setCsn10(`${data.CSN10}`);
+      setAgr1(`${data.AGR1}`);
+      setAgr2(`${data.AGR2}`);
+      setAgr3(`${data.AGR3}`);
+      setAgr4(`${data.AGR4}`);
+      setAgr5(`${data.AGR5}`);
+      setAgr6(`${data.AGR6}`);
+      setAgr7(`${data.AGR7}`);
+      setAgr8(`${data.AGR8}`);
+      setAgr9(`${data.AGR9}`);
+      setAgr10(`${data.AGR10}`);
     } else {
-      setIsEditable(true);
+      closeEditing(true);
     }
   }, [data]);
 
@@ -254,6 +252,7 @@ const PersnalityTest = () => {
           } else {
             setMsg("Profile preferences update successfully");
           }
+          closeEditing(false);
         });
     } catch (error) {
       console.log(error);
@@ -264,7 +263,8 @@ const PersnalityTest = () => {
     <>
       <div className="">
         {msg}
-              {!isLoaded && <div>Loading..</div>}
+        {!isLoaded && <div>Loading..</div>}
+        {error}
 
         <form onSubmit={handlePersonalityQnsSubmit}>
           <div className="flex w-full mb-1">
@@ -296,7 +296,7 @@ const PersnalityTest = () => {
                       name="ext1"
                       value="1"
                       checked={ext1 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt1(e.target.value);
                       }}
@@ -309,7 +309,7 @@ const PersnalityTest = () => {
                       name="ext1"
                       value="2"
                       checked={ext1 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt1(e.target.value);
                       }}
@@ -322,7 +322,7 @@ const PersnalityTest = () => {
                       name="ext1"
                       value="3"
                       checked={ext1 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt1(e.target.value);
                       }}
@@ -335,7 +335,7 @@ const PersnalityTest = () => {
                       name="ext1"
                       value="4"
                       checked={ext1 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt1(e.target.value);
                       }}
@@ -348,7 +348,7 @@ const PersnalityTest = () => {
                       name="ext1"
                       value="5"
                       checked={ext1 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt1(e.target.value);
                       }}
@@ -372,7 +372,7 @@ const PersnalityTest = () => {
                       name="ext2"
                       value="1"
                       checked={ext2 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt2(e.target.value);
                       }}
@@ -385,7 +385,7 @@ const PersnalityTest = () => {
                       name="ext2"
                       value="2"
                       checked={ext2 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt2(e.target.value);
                       }}
@@ -398,7 +398,7 @@ const PersnalityTest = () => {
                       name="ext2"
                       value="3"
                       checked={ext2 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt2(e.target.value);
                       }}
@@ -411,7 +411,7 @@ const PersnalityTest = () => {
                       name="ext2"
                       value="4"
                       checked={ext2 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt2(e.target.value);
                       }}
@@ -424,7 +424,7 @@ const PersnalityTest = () => {
                       name="ext2"
                       value="5"
                       checked={ext2 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt2(e.target.value);
                       }}
@@ -448,7 +448,7 @@ const PersnalityTest = () => {
                       name="ext3"
                       value="1"
                       checked={ext3 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt3(e.target.value);
                       }}
@@ -461,7 +461,7 @@ const PersnalityTest = () => {
                       name="ext3"
                       value="2"
                       checked={ext3 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt3(e.target.value);
                       }}
@@ -474,7 +474,7 @@ const PersnalityTest = () => {
                       name="ext3"
                       value="3"
                       checked={ext3 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt3(e.target.value);
                       }}
@@ -487,7 +487,7 @@ const PersnalityTest = () => {
                       name="ext3"
                       value="4"
                       checked={ext3 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt3(e.target.value);
                       }}
@@ -500,7 +500,7 @@ const PersnalityTest = () => {
                       name="ext3"
                       value="5"
                       checked={ext3 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt3(e.target.value);
                       }}
@@ -524,7 +524,7 @@ const PersnalityTest = () => {
                       name="ext4"
                       value="1"
                       checked={ext4 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt4(e.target.value);
                       }}
@@ -537,7 +537,7 @@ const PersnalityTest = () => {
                       name="ext4"
                       value="2"
                       checked={ext4 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt4(e.target.value);
                       }}
@@ -550,7 +550,7 @@ const PersnalityTest = () => {
                       name="ext4"
                       value="3"
                       checked={ext4 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt4(e.target.value);
                       }}
@@ -563,7 +563,7 @@ const PersnalityTest = () => {
                       name="ext4"
                       value="4"
                       checked={ext4 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt4(e.target.value);
                       }}
@@ -576,7 +576,7 @@ const PersnalityTest = () => {
                       name="ext4"
                       value="5"
                       checked={ext4 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt4(e.target.value);
                       }}
@@ -600,7 +600,7 @@ const PersnalityTest = () => {
                       name="ext5"
                       value="1"
                       checked={ext5 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt5(e.target.value);
                       }}
@@ -613,7 +613,7 @@ const PersnalityTest = () => {
                       name="ext5"
                       value="2"
                       checked={ext5 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt5(e.target.value);
                       }}
@@ -626,7 +626,7 @@ const PersnalityTest = () => {
                       name="ext5"
                       value="3"
                       checked={ext5 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt5(e.target.value);
                       }}
@@ -639,7 +639,7 @@ const PersnalityTest = () => {
                       name="ext5"
                       value="4"
                       checked={ext5 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt5(e.target.value);
                       }}
@@ -652,7 +652,7 @@ const PersnalityTest = () => {
                       name="ext5"
                       value="5"
                       checked={ext5 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt5(e.target.value);
                       }}
@@ -676,7 +676,7 @@ const PersnalityTest = () => {
                       name="ext6"
                       value="1"
                       checked={ext6 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt6(e.target.value);
                       }}
@@ -689,7 +689,7 @@ const PersnalityTest = () => {
                       name="ext6"
                       value="2"
                       checked={ext6 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt6(e.target.value);
                       }}
@@ -702,7 +702,7 @@ const PersnalityTest = () => {
                       name="ext6"
                       value="3"
                       checked={ext6 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt6(e.target.value);
                       }}
@@ -715,7 +715,7 @@ const PersnalityTest = () => {
                       name="ext6"
                       value="4"
                       checked={ext6 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt6(e.target.value);
                       }}
@@ -728,7 +728,7 @@ const PersnalityTest = () => {
                       name="ext6"
                       value="5"
                       checked={ext6 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt6(e.target.value);
                       }}
@@ -752,7 +752,7 @@ const PersnalityTest = () => {
                       name="ext7"
                       value="1"
                       checked={ext7 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt7(e.target.value);
                       }}
@@ -765,7 +765,7 @@ const PersnalityTest = () => {
                       name="ext7"
                       value="2"
                       checked={ext7 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt7(e.target.value);
                       }}
@@ -778,7 +778,7 @@ const PersnalityTest = () => {
                       name="ext7"
                       value="3"
                       checked={ext7 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt7(e.target.value);
                       }}
@@ -791,7 +791,7 @@ const PersnalityTest = () => {
                       name="ext7"
                       value="4"
                       checked={ext7 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt7(e.target.value);
                       }}
@@ -804,7 +804,7 @@ const PersnalityTest = () => {
                       name="ext7"
                       value="5"
                       checked={ext7 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt7(e.target.value);
                       }}
@@ -828,7 +828,7 @@ const PersnalityTest = () => {
                       name="ext8"
                       value="1"
                       checked={ext8 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt8(e.target.value);
                       }}
@@ -841,7 +841,7 @@ const PersnalityTest = () => {
                       name="ext8"
                       value="2"
                       checked={ext8 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt8(e.target.value);
                       }}
@@ -854,7 +854,7 @@ const PersnalityTest = () => {
                       name="ext8"
                       value="3"
                       checked={ext8 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt8(e.target.value);
                       }}
@@ -867,7 +867,7 @@ const PersnalityTest = () => {
                       name="ext8"
                       value="4"
                       checked={ext8 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt8(e.target.value);
                       }}
@@ -880,7 +880,7 @@ const PersnalityTest = () => {
                       name="ext8"
                       value="5"
                       checked={ext8 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt8(e.target.value);
                       }}
@@ -904,7 +904,7 @@ const PersnalityTest = () => {
                       name="ext9"
                       value="1"
                       checked={ext9 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt9(e.target.value);
                       }}
@@ -917,7 +917,7 @@ const PersnalityTest = () => {
                       name="ext9"
                       value="2"
                       checked={ext9 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt9(e.target.value);
                       }}
@@ -930,7 +930,7 @@ const PersnalityTest = () => {
                       name="ext9"
                       value="3"
                       checked={ext9 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt9(e.target.value);
                       }}
@@ -943,7 +943,7 @@ const PersnalityTest = () => {
                       name="ext9"
                       value="4"
                       checked={ext9 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt9(e.target.value);
                       }}
@@ -956,7 +956,7 @@ const PersnalityTest = () => {
                       name="ext9"
                       value="5"
                       checked={ext9 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt9(e.target.value);
                       }}
@@ -980,7 +980,7 @@ const PersnalityTest = () => {
                       name="ext10"
                       value="1"
                       checked={ext10 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt10(e.target.value);
                       }}
@@ -993,7 +993,7 @@ const PersnalityTest = () => {
                       name="ext10"
                       value="2"
                       checked={ext10 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt10(e.target.value);
                       }}
@@ -1006,7 +1006,7 @@ const PersnalityTest = () => {
                       name="ext10"
                       value="3"
                       checked={ext10 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt10(e.target.value);
                       }}
@@ -1019,7 +1019,7 @@ const PersnalityTest = () => {
                       name="ext10"
                       value="4"
                       checked={ext10 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt10(e.target.value);
                       }}
@@ -1032,7 +1032,7 @@ const PersnalityTest = () => {
                       name="ext10"
                       value="5"
                       checked={ext10 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setExt10(e.target.value);
                       }}
@@ -1056,7 +1056,7 @@ const PersnalityTest = () => {
                       name="est1"
                       value="1"
                       checked={est1 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst1(e.target.value);
                       }}
@@ -1069,7 +1069,7 @@ const PersnalityTest = () => {
                       name="est1"
                       value="2"
                       checked={est1 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst1(e.target.value);
                       }}
@@ -1082,7 +1082,7 @@ const PersnalityTest = () => {
                       name="est1"
                       value="3"
                       checked={est1 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst1(e.target.value);
                       }}
@@ -1095,7 +1095,7 @@ const PersnalityTest = () => {
                       name="est1"
                       value="4"
                       checked={est1 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst1(e.target.value);
                       }}
@@ -1108,7 +1108,7 @@ const PersnalityTest = () => {
                       name="est1"
                       value="5"
                       checked={est1 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst1(e.target.value);
                       }}
@@ -1129,7 +1129,7 @@ const PersnalityTest = () => {
                       name="est2"
                       value="1"
                       checked={est2 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst2(e.target.value);
                       }}
@@ -1142,7 +1142,7 @@ const PersnalityTest = () => {
                       name="est2"
                       value="2"
                       checked={est2 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst2(e.target.value);
                       }}
@@ -1155,7 +1155,7 @@ const PersnalityTest = () => {
                       name="est2"
                       value="3"
                       checked={est2 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst2(e.target.value);
                       }}
@@ -1168,7 +1168,7 @@ const PersnalityTest = () => {
                       name="est2"
                       value="4"
                       checked={est2 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst2(e.target.value);
                       }}
@@ -1181,7 +1181,7 @@ const PersnalityTest = () => {
                       name="est2"
                       value="5"
                       checked={est2 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst2(e.target.value);
                       }}
@@ -1202,7 +1202,7 @@ const PersnalityTest = () => {
                       name="est3"
                       value="1"
                       checked={est3 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst3(e.target.value);
                       }}
@@ -1215,7 +1215,7 @@ const PersnalityTest = () => {
                       name="est3"
                       value="2"
                       checked={est3 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst3(e.target.value);
                       }}
@@ -1228,7 +1228,7 @@ const PersnalityTest = () => {
                       name="est3"
                       value="3"
                       checked={est3 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst3(e.target.value);
                       }}
@@ -1241,7 +1241,7 @@ const PersnalityTest = () => {
                       name="est3"
                       value="4"
                       checked={est3 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst3(e.target.value);
                       }}
@@ -1254,7 +1254,7 @@ const PersnalityTest = () => {
                       name="est3"
                       value="5"
                       checked={est3 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst3(e.target.value);
                       }}
@@ -1275,7 +1275,7 @@ const PersnalityTest = () => {
                       name="est4"
                       value="1"
                       checked={est4 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst4(e.target.value);
                       }}
@@ -1288,7 +1288,7 @@ const PersnalityTest = () => {
                       name="est4"
                       value="2"
                       checked={est4 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst4(e.target.value);
                       }}
@@ -1301,7 +1301,7 @@ const PersnalityTest = () => {
                       name="est4"
                       value="3"
                       checked={est4 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst4(e.target.value);
                       }}
@@ -1314,7 +1314,7 @@ const PersnalityTest = () => {
                       name="est4"
                       value="4"
                       checked={est4 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst4(e.target.value);
                       }}
@@ -1327,7 +1327,7 @@ const PersnalityTest = () => {
                       name="est4"
                       value="5"
                       checked={est4 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst4(e.target.value);
                       }}
@@ -1348,7 +1348,7 @@ const PersnalityTest = () => {
                       name="est5"
                       value="1"
                       checked={est5 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst5(e.target.value);
                       }}
@@ -1361,7 +1361,7 @@ const PersnalityTest = () => {
                       name="est5"
                       value="2"
                       checked={est5 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst5(e.target.value);
                       }}
@@ -1374,7 +1374,7 @@ const PersnalityTest = () => {
                       name="est5"
                       value="3"
                       checked={est5 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst5(e.target.value);
                       }}
@@ -1387,7 +1387,7 @@ const PersnalityTest = () => {
                       name="est5"
                       value="4"
                       checked={est5 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst5(e.target.value);
                       }}
@@ -1400,7 +1400,7 @@ const PersnalityTest = () => {
                       name="est5"
                       value="5"
                       checked={est5 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst5(e.target.value);
                       }}
@@ -1421,7 +1421,7 @@ const PersnalityTest = () => {
                       name="est6"
                       value="1"
                       checked={est6 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst6(e.target.value);
                       }}
@@ -1434,7 +1434,7 @@ const PersnalityTest = () => {
                       name="est6"
                       value="2"
                       checked={est6 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst6(e.target.value);
                       }}
@@ -1447,7 +1447,7 @@ const PersnalityTest = () => {
                       name="est6"
                       value="3"
                       checked={est6 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst6(e.target.value);
                       }}
@@ -1460,7 +1460,7 @@ const PersnalityTest = () => {
                       name="est6"
                       value="4"
                       checked={est6 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst6(e.target.value);
                       }}
@@ -1473,7 +1473,7 @@ const PersnalityTest = () => {
                       name="est6"
                       value="5"
                       checked={est6 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst6(e.target.value);
                       }}
@@ -1494,7 +1494,7 @@ const PersnalityTest = () => {
                       name="est7"
                       value="1"
                       checked={est7 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst7(e.target.value);
                       }}
@@ -1507,7 +1507,7 @@ const PersnalityTest = () => {
                       name="est7"
                       value="2"
                       checked={est7 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst7(e.target.value);
                       }}
@@ -1520,7 +1520,7 @@ const PersnalityTest = () => {
                       name="est7"
                       value="3"
                       checked={est7 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst7(e.target.value);
                       }}
@@ -1533,7 +1533,7 @@ const PersnalityTest = () => {
                       name="est7"
                       value="4"
                       checked={est7 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst7(e.target.value);
                       }}
@@ -1546,7 +1546,7 @@ const PersnalityTest = () => {
                       name="est7"
                       value="5"
                       checked={est7 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst7(e.target.value);
                       }}
@@ -1567,7 +1567,7 @@ const PersnalityTest = () => {
                       name="est8"
                       value="1"
                       checked={est8 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst8(e.target.value);
                       }}
@@ -1580,7 +1580,7 @@ const PersnalityTest = () => {
                       name="est8"
                       value="2"
                       checked={est8 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst8(e.target.value);
                       }}
@@ -1593,7 +1593,7 @@ const PersnalityTest = () => {
                       name="est8"
                       value="3"
                       checked={est8 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst8(e.target.value);
                       }}
@@ -1606,7 +1606,7 @@ const PersnalityTest = () => {
                       name="est8"
                       value="4"
                       checked={est8 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst8(e.target.value);
                       }}
@@ -1619,7 +1619,7 @@ const PersnalityTest = () => {
                       name="est8"
                       value="5"
                       checked={est8 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst8(e.target.value);
                       }}
@@ -1640,7 +1640,7 @@ const PersnalityTest = () => {
                       name="est9"
                       value="1"
                       checked={est9 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst9(e.target.value);
                       }}
@@ -1653,7 +1653,7 @@ const PersnalityTest = () => {
                       name="est9"
                       value="2"
                       checked={est9 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst9(e.target.value);
                       }}
@@ -1666,7 +1666,7 @@ const PersnalityTest = () => {
                       name="est9"
                       value="3"
                       checked={est9 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst9(e.target.value);
                       }}
@@ -1679,7 +1679,7 @@ const PersnalityTest = () => {
                       name="est9"
                       value="4"
                       checked={est9 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst9(e.target.value);
                       }}
@@ -1692,7 +1692,7 @@ const PersnalityTest = () => {
                       name="est9"
                       value="5"
                       checked={est9 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst9(e.target.value);
                       }}
@@ -1713,7 +1713,7 @@ const PersnalityTest = () => {
                       name="est10"
                       value="1"
                       checked={est10 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst10(e.target.value);
                       }}
@@ -1726,7 +1726,7 @@ const PersnalityTest = () => {
                       name="est10"
                       value="2"
                       checked={est10 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst10(e.target.value);
                       }}
@@ -1739,7 +1739,7 @@ const PersnalityTest = () => {
                       name="est10"
                       value="3"
                       checked={est10 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst10(e.target.value);
                       }}
@@ -1752,7 +1752,7 @@ const PersnalityTest = () => {
                       name="est10"
                       value="4"
                       checked={est10 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst10(e.target.value);
                       }}
@@ -1765,7 +1765,7 @@ const PersnalityTest = () => {
                       name="est10"
                       value="5"
                       checked={est10 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setEst10(e.target.value);
                       }}
@@ -1789,7 +1789,7 @@ const PersnalityTest = () => {
                       name="agr1"
                       value="1"
                       checked={agr1 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr1(e.target.value);
                       }}
@@ -1802,7 +1802,7 @@ const PersnalityTest = () => {
                       name="agr1"
                       value="2"
                       checked={agr1 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr1(e.target.value);
                       }}
@@ -1815,7 +1815,7 @@ const PersnalityTest = () => {
                       name="agr1"
                       value="3"
                       checked={agr1 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr1(e.target.value);
                       }}
@@ -1828,7 +1828,7 @@ const PersnalityTest = () => {
                       name="agr1"
                       value="4"
                       checked={agr1 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr1(e.target.value);
                       }}
@@ -1841,7 +1841,7 @@ const PersnalityTest = () => {
                       name="agr1"
                       value="5"
                       checked={agr1 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr1(e.target.value);
                       }}
@@ -1862,7 +1862,7 @@ const PersnalityTest = () => {
                       name="agr2"
                       value="1"
                       checked={agr2 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr2(e.target.value);
                       }}
@@ -1875,7 +1875,7 @@ const PersnalityTest = () => {
                       name="agr2"
                       value="2"
                       checked={agr2 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr2(e.target.value);
                       }}
@@ -1888,7 +1888,7 @@ const PersnalityTest = () => {
                       name="agr2"
                       value="3"
                       checked={agr2 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr2(e.target.value);
                       }}
@@ -1901,7 +1901,7 @@ const PersnalityTest = () => {
                       name="agr2"
                       value="4"
                       checked={agr2 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr2(e.target.value);
                       }}
@@ -1914,7 +1914,7 @@ const PersnalityTest = () => {
                       name="agr2"
                       value="5"
                       checked={agr2 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr2(e.target.value);
                       }}
@@ -1935,7 +1935,7 @@ const PersnalityTest = () => {
                       name="agr3"
                       value="1"
                       checked={agr3 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr3(e.target.value);
                       }}
@@ -1948,7 +1948,7 @@ const PersnalityTest = () => {
                       name="agr3"
                       value="2"
                       checked={agr3 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr3(e.target.value);
                       }}
@@ -1961,7 +1961,7 @@ const PersnalityTest = () => {
                       name="agr3"
                       value="3"
                       checked={agr3 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr3(e.target.value);
                       }}
@@ -1974,7 +1974,7 @@ const PersnalityTest = () => {
                       name="agr3"
                       value="4"
                       checked={agr3 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr3(e.target.value);
                       }}
@@ -1987,7 +1987,7 @@ const PersnalityTest = () => {
                       name="agr3"
                       value="5"
                       checked={agr3 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr3(e.target.value);
                       }}
@@ -2008,7 +2008,7 @@ const PersnalityTest = () => {
                       name="agr4"
                       value="1"
                       checked={agr4 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr4(e.target.value);
                       }}
@@ -2021,7 +2021,7 @@ const PersnalityTest = () => {
                       name="agr4"
                       value="2"
                       checked={agr4 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr4(e.target.value);
                       }}
@@ -2034,7 +2034,7 @@ const PersnalityTest = () => {
                       name="agr4"
                       value="3"
                       checked={agr4 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr4(e.target.value);
                       }}
@@ -2047,7 +2047,7 @@ const PersnalityTest = () => {
                       name="agr4"
                       value="4"
                       checked={agr4 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr4(e.target.value);
                       }}
@@ -2060,7 +2060,7 @@ const PersnalityTest = () => {
                       name="agr4"
                       value="5"
                       checked={agr4 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr4(e.target.value);
                       }}
@@ -2081,7 +2081,7 @@ const PersnalityTest = () => {
                       name="agr5"
                       value="1"
                       checked={agr5 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr5(e.target.value);
                       }}
@@ -2094,7 +2094,7 @@ const PersnalityTest = () => {
                       name="agr5"
                       value="2"
                       checked={agr5 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr5(e.target.value);
                       }}
@@ -2107,7 +2107,7 @@ const PersnalityTest = () => {
                       name="agr5"
                       value="3"
                       checked={agr5 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr5(e.target.value);
                       }}
@@ -2120,7 +2120,7 @@ const PersnalityTest = () => {
                       name="agr5"
                       value="4"
                       checked={agr5 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr5(e.target.value);
                       }}
@@ -2133,7 +2133,7 @@ const PersnalityTest = () => {
                       name="agr5"
                       value="5"
                       checked={agr5 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr5(e.target.value);
                       }}
@@ -2154,7 +2154,7 @@ const PersnalityTest = () => {
                       name="agr6"
                       value="1"
                       checked={agr6 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr6(e.target.value);
                       }}
@@ -2167,7 +2167,7 @@ const PersnalityTest = () => {
                       name="agr6"
                       value="2"
                       checked={agr6 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr6(e.target.value);
                       }}
@@ -2180,7 +2180,7 @@ const PersnalityTest = () => {
                       name="agr6"
                       value="3"
                       checked={agr6 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr6(e.target.value);
                       }}
@@ -2193,7 +2193,7 @@ const PersnalityTest = () => {
                       name="agr6"
                       value="4"
                       checked={agr6 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr6(e.target.value);
                       }}
@@ -2206,7 +2206,7 @@ const PersnalityTest = () => {
                       name="agr6"
                       value="5"
                       checked={agr6 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr6(e.target.value);
                       }}
@@ -2227,7 +2227,7 @@ const PersnalityTest = () => {
                       name="agr7"
                       value="1"
                       checked={agr7 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr7(e.target.value);
                       }}
@@ -2240,7 +2240,7 @@ const PersnalityTest = () => {
                       name="agr7"
                       value="2"
                       checked={agr7 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr7(e.target.value);
                       }}
@@ -2253,7 +2253,7 @@ const PersnalityTest = () => {
                       name="agr7"
                       value="3"
                       checked={agr7 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr7(e.target.value);
                       }}
@@ -2266,7 +2266,7 @@ const PersnalityTest = () => {
                       name="agr7"
                       value="4"
                       checked={agr7 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr7(e.target.value);
                       }}
@@ -2279,7 +2279,7 @@ const PersnalityTest = () => {
                       name="agr7"
                       value="5"
                       checked={agr7 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr7(e.target.value);
                       }}
@@ -2300,7 +2300,7 @@ const PersnalityTest = () => {
                       name="agr8"
                       value="1"
                       checked={agr8 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr8(e.target.value);
                       }}
@@ -2313,7 +2313,7 @@ const PersnalityTest = () => {
                       name="agr8"
                       value="2"
                       checked={agr8 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr8(e.target.value);
                       }}
@@ -2326,7 +2326,7 @@ const PersnalityTest = () => {
                       name="agr8"
                       value="3"
                       checked={agr8 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr8(e.target.value);
                       }}
@@ -2339,7 +2339,7 @@ const PersnalityTest = () => {
                       name="agr8"
                       value="4"
                       checked={agr8 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr8(e.target.value);
                       }}
@@ -2352,7 +2352,7 @@ const PersnalityTest = () => {
                       name="agr8"
                       value="5"
                       checked={agr8 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr8(e.target.value);
                       }}
@@ -2373,7 +2373,7 @@ const PersnalityTest = () => {
                       name="agr9"
                       value="1"
                       checked={agr9 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr9(e.target.value);
                       }}
@@ -2386,7 +2386,7 @@ const PersnalityTest = () => {
                       name="agr9"
                       value="2"
                       checked={agr9 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr9(e.target.value);
                       }}
@@ -2399,7 +2399,7 @@ const PersnalityTest = () => {
                       name="agr9"
                       value="3"
                       checked={agr9 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr9(e.target.value);
                       }}
@@ -2412,7 +2412,7 @@ const PersnalityTest = () => {
                       name="agr9"
                       value="4"
                       checked={agr9 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr9(e.target.value);
                       }}
@@ -2425,7 +2425,7 @@ const PersnalityTest = () => {
                       name="agr9"
                       value="5"
                       checked={agr9 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr9(e.target.value);
                       }}
@@ -2446,7 +2446,7 @@ const PersnalityTest = () => {
                       name="agr10"
                       value="1"
                       checked={agr10 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr10(e.target.value);
                       }}
@@ -2459,7 +2459,7 @@ const PersnalityTest = () => {
                       name="agr10"
                       value="2"
                       checked={agr10 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr10(e.target.value);
                       }}
@@ -2472,7 +2472,7 @@ const PersnalityTest = () => {
                       name="agr10"
                       value="3"
                       checked={agr10 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr10(e.target.value);
                       }}
@@ -2485,7 +2485,7 @@ const PersnalityTest = () => {
                       name="agr10"
                       value="4"
                       checked={agr10 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr10(e.target.value);
                       }}
@@ -2498,7 +2498,7 @@ const PersnalityTest = () => {
                       name="agr10"
                       value="5"
                       checked={agr10 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setAgr10(e.target.value);
                       }}
@@ -2522,7 +2522,7 @@ const PersnalityTest = () => {
                       name="csn1"
                       value="1"
                       checked={csn1 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn1(e.target.value);
                       }}
@@ -2535,7 +2535,7 @@ const PersnalityTest = () => {
                       name="csn1"
                       value="2"
                       checked={csn1 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn1(e.target.value);
                       }}
@@ -2548,7 +2548,7 @@ const PersnalityTest = () => {
                       name="csn1"
                       value="3"
                       checked={csn1 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn1(e.target.value);
                       }}
@@ -2561,7 +2561,7 @@ const PersnalityTest = () => {
                       name="csn1"
                       value="4"
                       checked={csn1 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn1(e.target.value);
                       }}
@@ -2574,7 +2574,7 @@ const PersnalityTest = () => {
                       name="csn1"
                       value="5"
                       checked={csn1 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn1(e.target.value);
                       }}
@@ -2595,7 +2595,7 @@ const PersnalityTest = () => {
                       name="csn2"
                       value="1"
                       checked={csn2 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn2(e.target.value);
                       }}
@@ -2608,7 +2608,7 @@ const PersnalityTest = () => {
                       name="csn2"
                       value="2"
                       checked={csn2 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn2(e.target.value);
                       }}
@@ -2621,7 +2621,7 @@ const PersnalityTest = () => {
                       name="csn2"
                       value="3"
                       checked={csn2 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn2(e.target.value);
                       }}
@@ -2634,7 +2634,7 @@ const PersnalityTest = () => {
                       name="csn2"
                       value="4"
                       checked={csn2 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn2(e.target.value);
                       }}
@@ -2647,7 +2647,7 @@ const PersnalityTest = () => {
                       name="csn2"
                       value="5"
                       checked={csn2 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn2(e.target.value);
                       }}
@@ -2668,7 +2668,7 @@ const PersnalityTest = () => {
                       name="csn3"
                       value="1"
                       checked={csn3 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn3(e.target.value);
                       }}
@@ -2681,7 +2681,7 @@ const PersnalityTest = () => {
                       name="csn3"
                       value="2"
                       checked={csn3 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn3(e.target.value);
                       }}
@@ -2694,7 +2694,7 @@ const PersnalityTest = () => {
                       name="csn3"
                       value="3"
                       checked={csn3 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn3(e.target.value);
                       }}
@@ -2707,7 +2707,7 @@ const PersnalityTest = () => {
                       name="csn3"
                       value="4"
                       checked={csn3 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn3(e.target.value);
                       }}
@@ -2720,7 +2720,7 @@ const PersnalityTest = () => {
                       name="csn3"
                       value="5"
                       checked={csn3 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn3(e.target.value);
                       }}
@@ -2741,7 +2741,7 @@ const PersnalityTest = () => {
                       name="csn4"
                       value="1"
                       checked={csn4 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn4(e.target.value);
                       }}
@@ -2754,7 +2754,7 @@ const PersnalityTest = () => {
                       name="csn4"
                       value="2"
                       checked={csn4 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn4(e.target.value);
                       }}
@@ -2767,7 +2767,7 @@ const PersnalityTest = () => {
                       name="csn4"
                       value="3"
                       checked={csn4 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn4(e.target.value);
                       }}
@@ -2780,7 +2780,7 @@ const PersnalityTest = () => {
                       name="csn4"
                       value="4"
                       checked={csn4 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn4(e.target.value);
                       }}
@@ -2793,7 +2793,7 @@ const PersnalityTest = () => {
                       name="csn4"
                       value="5"
                       checked={csn4 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn4(e.target.value);
                       }}
@@ -2814,7 +2814,7 @@ const PersnalityTest = () => {
                       name="csn5"
                       value="1"
                       checked={csn5 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn5(e.target.value);
                       }}
@@ -2827,7 +2827,7 @@ const PersnalityTest = () => {
                       name="csn5"
                       value="2"
                       checked={csn5 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn5(e.target.value);
                       }}
@@ -2840,7 +2840,7 @@ const PersnalityTest = () => {
                       name="csn5"
                       value="3"
                       checked={csn5 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn5(e.target.value);
                       }}
@@ -2853,7 +2853,7 @@ const PersnalityTest = () => {
                       name="csn5"
                       value="4"
                       checked={csn5 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn5(e.target.value);
                       }}
@@ -2866,7 +2866,7 @@ const PersnalityTest = () => {
                       name="csn5"
                       value="5"
                       checked={csn5 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn5(e.target.value);
                       }}
@@ -2889,7 +2889,7 @@ const PersnalityTest = () => {
                       name="csn6"
                       value="1"
                       checked={csn6 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn6(e.target.value);
                       }}
@@ -2902,7 +2902,7 @@ const PersnalityTest = () => {
                       name="csn6"
                       value="2"
                       checked={csn6 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn6(e.target.value);
                       }}
@@ -2915,7 +2915,7 @@ const PersnalityTest = () => {
                       name="csn6"
                       value="3"
                       checked={csn6 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn6(e.target.value);
                       }}
@@ -2928,7 +2928,7 @@ const PersnalityTest = () => {
                       name="csn6"
                       value="4"
                       checked={csn6 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn6(e.target.value);
                       }}
@@ -2941,7 +2941,7 @@ const PersnalityTest = () => {
                       name="csn6"
                       value="5"
                       checked={csn6 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn6(e.target.value);
                       }}
@@ -2962,7 +2962,7 @@ const PersnalityTest = () => {
                       name="csn7"
                       value="1"
                       checked={csn7 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn7(e.target.value);
                       }}
@@ -2975,7 +2975,7 @@ const PersnalityTest = () => {
                       name="csn7"
                       value="2"
                       checked={csn7 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn7(e.target.value);
                       }}
@@ -2988,7 +2988,7 @@ const PersnalityTest = () => {
                       name="csn7"
                       value="3"
                       checked={csn7 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn7(e.target.value);
                       }}
@@ -3001,7 +3001,7 @@ const PersnalityTest = () => {
                       name="csn7"
                       value="4"
                       checked={csn7 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn7(e.target.value);
                       }}
@@ -3014,7 +3014,7 @@ const PersnalityTest = () => {
                       name="csn7"
                       value="5"
                       checked={csn7 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn7(e.target.value);
                       }}
@@ -3035,7 +3035,7 @@ const PersnalityTest = () => {
                       name="csn8"
                       value="1"
                       checked={csn8 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn8(e.target.value);
                       }}
@@ -3048,7 +3048,7 @@ const PersnalityTest = () => {
                       name="csn8"
                       value="2"
                       checked={csn8 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn8(e.target.value);
                       }}
@@ -3061,7 +3061,7 @@ const PersnalityTest = () => {
                       name="csn8"
                       value="3"
                       checked={csn8 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn8(e.target.value);
                       }}
@@ -3074,7 +3074,7 @@ const PersnalityTest = () => {
                       name="csn8"
                       value="4"
                       checked={csn8 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn8(e.target.value);
                       }}
@@ -3087,7 +3087,7 @@ const PersnalityTest = () => {
                       name="csn8"
                       value="5"
                       checked={csn8 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn8(e.target.value);
                       }}
@@ -3108,7 +3108,7 @@ const PersnalityTest = () => {
                       name="csn9"
                       value="1"
                       checked={csn9 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn9(e.target.value);
                       }}
@@ -3121,7 +3121,7 @@ const PersnalityTest = () => {
                       name="csn9"
                       value="2"
                       checked={csn9 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn9(e.target.value);
                       }}
@@ -3134,7 +3134,7 @@ const PersnalityTest = () => {
                       name="csn9"
                       value="3"
                       checked={csn9 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn9(e.target.value);
                       }}
@@ -3147,7 +3147,7 @@ const PersnalityTest = () => {
                       name="csn9"
                       value="4"
                       checked={csn9 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn9(e.target.value);
                       }}
@@ -3160,7 +3160,7 @@ const PersnalityTest = () => {
                       name="csn9"
                       value="5"
                       checked={csn9 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn9(e.target.value);
                       }}
@@ -3181,7 +3181,7 @@ const PersnalityTest = () => {
                       name="csn10"
                       value="1"
                       checked={csn10 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn10(e.target.value);
                       }}
@@ -3194,7 +3194,7 @@ const PersnalityTest = () => {
                       name="csn10"
                       value="2"
                       checked={csn10 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn10(e.target.value);
                       }}
@@ -3207,7 +3207,7 @@ const PersnalityTest = () => {
                       name="csn10"
                       value="3"
                       checked={csn10 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn10(e.target.value);
                       }}
@@ -3220,7 +3220,7 @@ const PersnalityTest = () => {
                       name="csn10"
                       value="4"
                       checked={csn10 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn10(e.target.value);
                       }}
@@ -3233,7 +3233,7 @@ const PersnalityTest = () => {
                       name="csn10"
                       value="5"
                       checked={csn10 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setCsn10(e.target.value);
                       }}
@@ -3257,7 +3257,7 @@ const PersnalityTest = () => {
                       name="opn1"
                       value="1"
                       checked={opn1 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn1(e.target.value);
                       }}
@@ -3270,7 +3270,7 @@ const PersnalityTest = () => {
                       name="opn1"
                       value="2"
                       checked={opn1 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn1(e.target.value);
                       }}
@@ -3283,7 +3283,7 @@ const PersnalityTest = () => {
                       name="opn1"
                       value="3"
                       checked={opn1 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn1(e.target.value);
                       }}
@@ -3296,7 +3296,7 @@ const PersnalityTest = () => {
                       name="opn1"
                       value="4"
                       checked={opn1 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn1(e.target.value);
                       }}
@@ -3309,7 +3309,7 @@ const PersnalityTest = () => {
                       name="opn1"
                       value="5"
                       checked={opn1 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn1(e.target.value);
                       }}
@@ -3330,7 +3330,7 @@ const PersnalityTest = () => {
                       name="opn2"
                       value="1"
                       checked={opn2 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn2(e.target.value);
                       }}
@@ -3343,7 +3343,7 @@ const PersnalityTest = () => {
                       name="opn2"
                       value="2"
                       checked={opn2 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn2(e.target.value);
                       }}
@@ -3356,7 +3356,7 @@ const PersnalityTest = () => {
                       name="opn2"
                       value="3"
                       checked={opn2 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn2(e.target.value);
                       }}
@@ -3369,7 +3369,7 @@ const PersnalityTest = () => {
                       name="opn2"
                       value="4"
                       checked={opn2 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn2(e.target.value);
                       }}
@@ -3382,7 +3382,7 @@ const PersnalityTest = () => {
                       name="opn2"
                       value="5"
                       checked={opn2 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn2(e.target.value);
                       }}
@@ -3403,7 +3403,7 @@ const PersnalityTest = () => {
                       name="opn3"
                       value="1"
                       checked={opn3 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn3(e.target.value);
                       }}
@@ -3416,7 +3416,7 @@ const PersnalityTest = () => {
                       name="opn3"
                       value="2"
                       checked={opn3 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn3(e.target.value);
                       }}
@@ -3429,7 +3429,7 @@ const PersnalityTest = () => {
                       name="opn3"
                       value="3"
                       checked={opn3 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn3(e.target.value);
                       }}
@@ -3442,7 +3442,7 @@ const PersnalityTest = () => {
                       name="opn3"
                       value="4"
                       checked={opn3 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn3(e.target.value);
                       }}
@@ -3455,7 +3455,7 @@ const PersnalityTest = () => {
                       name="opn3"
                       value="5"
                       checked={opn3 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn3(e.target.value);
                       }}
@@ -3476,7 +3476,7 @@ const PersnalityTest = () => {
                       name="opn4"
                       value="1"
                       checked={opn4 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn4(e.target.value);
                       }}
@@ -3489,7 +3489,7 @@ const PersnalityTest = () => {
                       name="opn4"
                       value="2"
                       checked={opn4 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn4(e.target.value);
                       }}
@@ -3502,7 +3502,7 @@ const PersnalityTest = () => {
                       name="opn4"
                       value="3"
                       checked={opn4 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn4(e.target.value);
                       }}
@@ -3515,7 +3515,7 @@ const PersnalityTest = () => {
                       name="opn4"
                       value="4"
                       checked={opn4 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn4(e.target.value);
                       }}
@@ -3528,7 +3528,7 @@ const PersnalityTest = () => {
                       name="opn4"
                       value="5"
                       checked={opn4 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn4(e.target.value);
                       }}
@@ -3549,7 +3549,7 @@ const PersnalityTest = () => {
                       name="opn5"
                       value="1"
                       checked={opn5 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn5(e.target.value);
                       }}
@@ -3562,7 +3562,7 @@ const PersnalityTest = () => {
                       name="opn5"
                       value="2"
                       checked={opn5 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn5(e.target.value);
                       }}
@@ -3575,7 +3575,7 @@ const PersnalityTest = () => {
                       name="opn5"
                       value="3"
                       checked={opn5 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn5(e.target.value);
                       }}
@@ -3588,7 +3588,7 @@ const PersnalityTest = () => {
                       name="opn5"
                       value="4"
                       checked={opn5 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn5(e.target.value);
                       }}
@@ -3601,7 +3601,7 @@ const PersnalityTest = () => {
                       name="opn5"
                       value="5"
                       checked={opn5 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn5(e.target.value);
                       }}
@@ -3622,7 +3622,7 @@ const PersnalityTest = () => {
                       name="opn6"
                       value="1"
                       checked={opn6 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn6(e.target.value);
                       }}
@@ -3635,7 +3635,7 @@ const PersnalityTest = () => {
                       name="opn6"
                       value="2"
                       checked={opn6 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn6(e.target.value);
                       }}
@@ -3648,7 +3648,7 @@ const PersnalityTest = () => {
                       name="opn6"
                       value="3"
                       checked={opn6 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn6(e.target.value);
                       }}
@@ -3661,7 +3661,7 @@ const PersnalityTest = () => {
                       name="opn6"
                       value="4"
                       checked={opn6 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn6(e.target.value);
                       }}
@@ -3674,7 +3674,7 @@ const PersnalityTest = () => {
                       name="opn6"
                       value="5"
                       checked={opn6 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn6(e.target.value);
                       }}
@@ -3695,7 +3695,7 @@ const PersnalityTest = () => {
                       name="opn7"
                       value="1"
                       checked={opn7 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn7(e.target.value);
                       }}
@@ -3708,7 +3708,7 @@ const PersnalityTest = () => {
                       name="opn7"
                       value="2"
                       checked={opn7 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn7(e.target.value);
                       }}
@@ -3721,7 +3721,7 @@ const PersnalityTest = () => {
                       name="opn7"
                       value="3"
                       checked={opn7 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn7(e.target.value);
                       }}
@@ -3734,7 +3734,7 @@ const PersnalityTest = () => {
                       name="opn7"
                       value="4"
                       checked={opn7 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn7(e.target.value);
                       }}
@@ -3747,7 +3747,7 @@ const PersnalityTest = () => {
                       name="opn7"
                       value="5"
                       checked={opn7 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn7(e.target.value);
                       }}
@@ -3768,7 +3768,7 @@ const PersnalityTest = () => {
                       name="opn8"
                       value="1"
                       checked={opn8 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn8(e.target.value);
                       }}
@@ -3781,7 +3781,7 @@ const PersnalityTest = () => {
                       name="opn8"
                       value="2"
                       checked={opn8 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn8(e.target.value);
                       }}
@@ -3794,7 +3794,7 @@ const PersnalityTest = () => {
                       name="opn8"
                       value="3"
                       checked={opn8 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn8(e.target.value);
                       }}
@@ -3807,7 +3807,7 @@ const PersnalityTest = () => {
                       name="opn8"
                       value="4"
                       checked={opn8 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn8(e.target.value);
                       }}
@@ -3820,7 +3820,7 @@ const PersnalityTest = () => {
                       name="opn8"
                       value="5"
                       checked={opn8 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn8(e.target.value);
                       }}
@@ -3841,7 +3841,7 @@ const PersnalityTest = () => {
                       name="opn9"
                       value="1"
                       checked={opn9 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn9(e.target.value);
                       }}
@@ -3854,7 +3854,7 @@ const PersnalityTest = () => {
                       name="opn9"
                       value="2"
                       checked={opn9 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn9(e.target.value);
                       }}
@@ -3867,7 +3867,7 @@ const PersnalityTest = () => {
                       name="opn9"
                       value="3"
                       checked={opn9 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn9(e.target.value);
                       }}
@@ -3880,7 +3880,7 @@ const PersnalityTest = () => {
                       name="opn9"
                       value="4"
                       checked={opn9 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn9(e.target.value);
                       }}
@@ -3893,7 +3893,7 @@ const PersnalityTest = () => {
                       name="opn9"
                       value="5"
                       checked={opn9 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn9(e.target.value);
                       }}
@@ -3914,7 +3914,7 @@ const PersnalityTest = () => {
                       name="opn10"
                       value="1"
                       checked={opn10 === "1" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn10(e.target.value);
                       }}
@@ -3927,7 +3927,7 @@ const PersnalityTest = () => {
                       name="opn10"
                       value="2"
                       checked={opn10 === "2" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn10(e.target.value);
                       }}
@@ -3940,7 +3940,7 @@ const PersnalityTest = () => {
                       name="opn10"
                       value="3"
                       checked={opn10 === "3" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn10(e.target.value);
                       }}
@@ -3953,7 +3953,7 @@ const PersnalityTest = () => {
                       name="opn10"
                       value="4"
                       checked={opn10 === "4" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn10(e.target.value);
                       }}
@@ -3966,7 +3966,7 @@ const PersnalityTest = () => {
                       name="opn10"
                       value="5"
                       checked={opn10 === "5" ? true : false}
-                      disabled={!isEditable}
+                      disabled={!canEdit}
                       onChange={(e) => {
                         setOpn10(e.target.value);
                       }}
@@ -3976,7 +3976,7 @@ const PersnalityTest = () => {
               </div>
             </>
           </div>
-          {isEditable && (
+          {canEdit && (
             <button
               type="submit"
               className="mr-5 mt-5 text-center w-full bg-primary-blue hover:bg-gray-200 hover:text-black ease-in-out duration-100 text-primary-white py-2 px-8 rounded"

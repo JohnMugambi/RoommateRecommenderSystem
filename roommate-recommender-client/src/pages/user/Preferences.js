@@ -7,7 +7,7 @@ import { useState, useContext, useEffect } from "react";
 const Preference = () => {
   //Get users preferences if he exists
 
-  const { data, error, isLoaded } = useApiGetRequest("/preferences");
+  const { data, isLoaded } = useApiGetRequest("/preferences");
 
   const { user } = useContext(UserContext);
   const [isEditable, setIsEditable] = useState(false);
@@ -19,8 +19,7 @@ const Preference = () => {
   //   ? "female"
   //   : "test2"
   // : "test1"
-  const [gender, setGender] = useState("mimi");
-  console.log("gender", gender);
+  const [gender, setGender] = useState("");
   const [foodpref, setFoodpref] = useState("");
   const [culinaryskills, setCulinarySkills] = useState("");
   const [alcohol, setAlcohol] = useState("");
@@ -28,15 +27,6 @@ const Preference = () => {
   const [pets, setPets] = useState("");
   const [sleepPatterns, setSleepPatterns] = useState("");
 
-  // const loadRadios = () => {
-  //   setGender(data.gender);
-  //   setFoodpref(data.foodpref);
-  //   setCulinarySkills(data.culinaryskills);
-  //   setAlcohol(data.alcohol);
-  //   setSmoking(data.smoking);
-  //   setPets(data.pets);
-  //   setSleepPatterns(data.sleeppatterns);
-  // };
   useEffect(() => {
     if (data !== null) {
       setIsEditable(false);
